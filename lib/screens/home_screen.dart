@@ -21,9 +21,29 @@ class HomeScreen extends StatelessWidget {
       body: SafeArea(
         child: Container(
           child: Obx(
-            () {
-              return ListView.separated(
-                itemBuilder: (context, index) => ListTile(
+            () => ListView.separated(
+              itemBuilder: (context, index) => Dismissible(
+                key: UniqueKey(),
+                onDismissed: (_) {
+                  var removed = todoController.todos[index];
+                  todoController.todos.removeAt(index);
+                  Get.snackbar('Task removed',
+                      'The task "${removed.text}" was successfully removed.',
+                      mainButton: FlatButton(
+                        child: Text('Undo'),
+                        onPressed: () {
+                          if (removed.isNull) {
+                            return;
+                          }
+                          todoController.todos.insert(index, removed);
+                          removed = null;
+                          if (Get.isSnackbarOpen) {
+                            Get.back();
+                          }
+                        },
+                      ));
+                },
+                child: ListTile(
                   title: Text(
                     todoController.todos[index].text,
                     style: (todoController.todos[index].done)
@@ -48,10 +68,10 @@ class HomeScreen extends StatelessWidget {
                       }),
                   trailing: Icon(Icons.chevron_right),
                 ),
-                separatorBuilder: (_, __) => Divider(),
-                itemCount: todoController.todos.length,
-              );
-            },
+              ),
+              separatorBuilder: (_, __) => Divider(),
+              itemCount: todoController.todos.length,
+            ),
           ),
         ),
       ),
