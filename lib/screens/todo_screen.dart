@@ -17,6 +17,15 @@ class TodoScreen extends StatelessWidget {
     TextEditingController textEditingController =
         TextEditingController(text: text);
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          int indexNumber =
+              !this.index.isNull ? index : todoController.todos.length;
+          todoController.todos[indexNumber].todoModel.count++;
+        },
+        mini: true,
+        child: Icon(Icons.add),
+      ),
       body: SafeArea(
         child: Container(
           child: Padding(
@@ -52,7 +61,9 @@ class TodoScreen extends StatelessWidget {
                       onPressed: () {
                         if (this.index.isNull) {
                           todoController.todos.add(
-                            Todo(text: textEditingController.text),
+                            Todo(
+                                text: textEditingController.text,
+                                todoModel: TodoModel(count: 0)),
                           );
                         } else {
                           var editing = todoController.todos[index];
@@ -65,6 +76,9 @@ class TodoScreen extends StatelessWidget {
                       color: Colors.green,
                     ),
                   ],
+                ),
+                SizedBox(
+                  height: 60,
                 ),
               ],
             ),

@@ -45,7 +45,8 @@ class HomeScreen extends StatelessWidget {
                 },
                 child: ListTile(
                   title: Text(
-                    todoController.todos[index].text,
+                    todoController.todos[index].text +
+                        " ${todoController.todos[index].todoModel.count}",
                     style: (todoController.todos[index].done)
                         ? TextStyle(
                             color: Colors.red,
