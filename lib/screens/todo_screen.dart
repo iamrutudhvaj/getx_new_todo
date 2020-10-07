@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:getx_new_todo/controllers/model_controller.dart';
 import 'package:getx_new_todo/controllers/todo_controller.dart';
 import 'package:getx_new_todo/models/todo.dart';
 
 class TodoScreen extends StatelessWidget {
-  final TodoController todoController = Get.find();
+  final TodoController todoController = Get.find<TodoController>();
+  final ModelController modelController = Get.find<ModelController>();
   final int index;
   TodoScreen({this.index});
 
@@ -17,6 +19,13 @@ class TodoScreen extends StatelessWidget {
     TextEditingController textEditingController =
         TextEditingController(text: text);
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          modelController.increment();
+        },
+        child: Icon(Icons.add),
+        mini: true,
+      ),
       body: SafeArea(
         child: Container(
           child: Padding(
@@ -52,7 +61,9 @@ class TodoScreen extends StatelessWidget {
                       onPressed: () {
                         if (this.index.isNull) {
                           todoController.todos.add(
-                            Todo(text: textEditingController.text),
+                            Todo(
+                              text: textEditingController.text,
+                            ),
                           );
                         } else {
                           var editing = todoController.todos[index];
@@ -65,6 +76,9 @@ class TodoScreen extends StatelessWidget {
                       color: Colors.green,
                     ),
                   ],
+                ),
+                SizedBox(
+                  height: 60,
                 ),
               ],
             ),

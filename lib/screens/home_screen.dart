@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:getx_new_todo/controllers/model_controller.dart';
 import 'package:getx_new_todo/controllers/todo_controller.dart';
 import 'package:getx_new_todo/screens/todo_screen.dart';
 
@@ -7,6 +8,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TodoController todoController = Get.put(TodoController());
+    final ModelController modelController = Get.put(ModelController());
 
     return Scaffold(
       appBar: AppBar(
@@ -45,7 +47,9 @@ class HomeScreen extends StatelessWidget {
                 },
                 child: ListTile(
                   title: Text(
-                    todoController.todos[index].text,
+                    todoController.todos[index].text +
+                        " " +
+                        modelController.testModel.value.count.toString(),
                     style: (todoController.todos[index].done)
                         ? TextStyle(
                             color: Colors.red,
